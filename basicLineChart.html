@@ -1,0 +1,49 @@
+<html>
+  <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart']
+            }]
+          }"></script>
+
+    <script type="text/javascript">
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+      var jsonData = $.ajax({
+          url: "srcdata.json",
+          dataType: "json",
+          async: false
+          }).responseText;
+
+      var data = new google.visualization.DataTable(jsonData);
+
+        var options = {
+          title: 'SET Index', 
+          legend: { position: 'bottom' },
+          trendlines: {
+          0: {
+           type: 'polynomial',
+            degree: 30,
+          visibleInLegend: true,
+          color: 'green',
+          opacity: 0.2,
+          labelInLegend: 'Trendlines'
+          }
+        } 
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('str_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="str_chart" style="width: 1200px; height: 700px"></div>
+  </body>
+</html>
